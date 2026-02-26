@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edgistify Lead Qualification Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+        
+        // Simple Icon Component for Lucide
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const iconRef = React.useRef(null);
+            React.useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }, [name]);
+            return <i data-lucide={name} style={{ width: size, height: size }} className={className}></i>;
+        };
+
+        const App = () => {
+            const [activeTab, setActiveTab] = useState('flow');
+            const pdfLink = "https://drive.google.com/file/d/1TrGNsR9pfXht0_lX2a0ChLNe8aozi_3U/view?usp=drive_link";
+
+            const rules = [
+                { title: "CRM First", desc: "Every company must be added to Zoho CRM immediately." },
+                { title: "Categorization", desc: "Categorize leads as A, B, C, or D based on revenue/potential." },
+                { title: "Target Decision Makers", desc: "Focus on Founders, CEOs, Directors, or Supply Chain Heads." },
+                { title: "Persistent Research", desc: "A wrong contact is not closure; find the correct person." },
+                { title: "Service Education", desc: "Explain all Edgistify services before marking 'No Requirement'." },
+                { title: "Mandatory Follow-ups", desc: "Create tasks for specific dates or a 60-day default." },
+                { title: "Next Actions", desc: "No lead should remain idle without a task/call/retry." },
+                { title: "Sprint Priority", desc: "High priority: Target 25 Sprint leads per week." },
+            ];
+
+            const tools = [
+                { name: "Full Workflow PDF", type: "Official Guide", url: pdfLink, use: "Complete Process Flowchart & Visuals" },
+                { name: "Client Category Tool", type: "Gemini", url: "https://gemini.google.com/gem/1Y8ZoCIIZ1nEJP6kv6vIPs8gmH6l0rA7n", use: "Category, Logistics Relevance" },
+                { name: "Sales Hook Tool", type: "Gemini", url: "https://gemini.google.com/gem/13G2iNa58sKNrGOQ-YIFhiA2FYTtS1XbA", use: "Trigger Events, Outreach Hooks" },
+                { name: "Lusha", type: "Enrichment", url: "https://www.lusha.com", use: "Mobile numbers, Email IDs" },
+                { name: "SignalHire", type: "Enrichment", url: "https://www.signalhire.com", use: "Decision maker info" },
+                { name: "Tracxn", type: "Research", url: "https://tracxn.com", use: "Startup data, Revenue estimates" }
+            ];
+
+            return (
+                <div className="min-h-screen">
+                    <nav className="bg-white border-b border-slate-200 sticky top-0 z-10">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex justify-between h-16 items-center">
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-blue-600 p-2 rounded-lg text-white">
+                                        <Icon name="target" />
+                                    </div>
+                                    <span className="font-bold text-xl tracking-tight text-slate-800">Edgistify Market Research</span>
+                                </div>
+                                <div className="hidden md:flex space-x-4">
+                                    <button onClick={() => setActiveTab('flow')} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'flow' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600'}`}>Workflow</button>
+                                    <button onClick={() => setActiveTab('guidelines')} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'guidelines' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600'}`}>Rules & KPIs</button>
+                                    <button onClick={() => setActiveTab('tools')} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === 'tools' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600'}`}>Toolkit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {activeTab === 'flow' && (
+                            <div className="space-y-6">
+                                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <h1 className="text-2xl font-bold">Lead Enrichment & Outreach Flow</h1>
+                                        <p className="text-slate-500 text-sm">Interactive lifecycle of a lead from research to qualification.</p>
+                                    </div>
+                                    <a href={pdfLink} target="_blank" className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-lg shadow-sm">
+                                        <Icon name="file-text" size={16} /> View Full Workflow PDF
+                                    </a>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                    <div className="bg-white p-6 rounded-xl border border-slate-200 relative">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-blue-500 rounded-l-xl"></div>
+                                        <div className="text-blue-600 mb-2"><Icon name="search" /></div>
+                                        <h3 className="font-semibold text-lg mb-4">1. Market Research</h3>
+                                        <ul className="space-y-3 text-sm text-slate-600">
+                                            <li>• Identify high-potential companies</li>
+                                            <li className="font-bold text-blue-600">• Add to Zoho immediately</li>
+                                            <li>• Categorize (A/B/C/D)</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-white p-6 rounded-xl border border-slate-200 relative">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500 rounded-l-xl"></div>
+                                        <div className="text-indigo-600 mb-2"><Icon name="user-plus" /></div>
+                                        <h3 className="font-semibold text-lg mb-4">2. Enrichment</h3>
+                                        <ul className="space-y-3 text-sm text-slate-600">
+                                            <li className="font-bold text-slate-900">• Min. 3 leads for A&B</li>
+                                            <li>• Target Decision Makers only</li>
+                                            <li>• Use Lusha/SignalHire</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-white p-6 rounded-xl border border-slate-200 relative">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-amber-500 rounded-l-xl"></div>
+                                        <div className="text-amber-600 mb-2"><Icon name="phone-call" /></div>
+                                        <h3 className="font-semibold text-lg mb-4">3. Outreach</h3>
+                                        <ul className="space-y-3 text-sm text-slate-600">
+                                            <li className="text-amber-600 font-bold">• Identify Sales Hook</li>
+                                            <li>• Outreach via Call/Email</li>
+                                            <li>• 60-Day follow-up rule</li>
+                                        </ul>
+                                    </div>
+                                    <div className="bg-white p-6 rounded-xl border border-slate-200 relative">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500 rounded-l-xl"></div>
+                                        <div className="text-emerald-600 mb-2"><Icon name="workflow" /></div>
+                                        <h3 className="font-semibold text-lg mb-4">4. Qualification</h3>
+                                        <ul className="space-y-3 text-sm text-slate-600">
+                                            <li className="text-emerald-700 font-bold">• Explain ALL services</li>
+                                            <li>• Mark Qualified</li>
+                                            <li>• Schedule Demo</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="bg-slate-900 text-white p-8 rounded-2xl">
+                                    <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Icon name="alert-circle" className="text-amber-400" /> Key Decision Paths</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                                        <div className="border-l border-slate-700 pl-4">
+                                            <h4 className="text-slate-400 font-bold uppercase text-[10px] mb-1">Wrong Contact</h4>
+                                            <p>Re-initiate research. Do not close.</p>
+                                        </div>
+                                        <div className="border-l border-slate-700 pl-4">
+                                            <h4 className="text-slate-400 font-bold uppercase text-[10px] mb-1">No Timeline</h4>
+                                            <p>Schedule task for 60 days exactly.</p>
+                                        </div>
+                                        <div className="border-l border-slate-700 pl-4">
+                                            <h4 className="text-slate-400 font-bold uppercase text-[10px] mb-1">No Requirement</h4>
+                                            <p className="text-amber-200">Explain full portfolio first.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {activeTab === 'guidelines' && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <section>
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <Icon name="clipboard-check" className="text-blue-600" />
+                                        <h2 className="text-xl font-bold">10 Golden Rules</h2>
+                                    </div>
+                                    <div className="space-y-3">
+                                        {rules.map((rule, idx) => (
+                                            <div key={idx} className="bg-white p-4 rounded-lg border border-slate-200 flex gap-3 items-center">
+                                                <div className="bg-slate-100 text-slate-500 font-bold w-6 h-6 flex items-center justify-center rounded-full text-xs shrink-0">{idx + 1}</div>
+                                                <div>
+                                                    <h4 className="font-bold text-sm text-slate-800 leading-none mb-1">{rule.title}</h4>
+                                                    <p className="text-xs text-slate-600">{rule.desc}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                                <section className="space-y-6">
+                                    <div className="flex items-center gap-2 mb-4">
+                                        <Icon name="bar-chart-3" className="text-indigo-600" />
+                                        <h2 className="text-xl font-bold">KPIs</h2>
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="bg-indigo-600 text-white p-6 rounded-2xl">
+                                            <p className="text-indigo-100 text-[10px] font-bold uppercase mb-1">Sprint Leads</p>
+                                            <h3 className="text-2xl font-black">25 / Week</h3>
+                                        </div>
+                                        <div className="bg-white p-6 rounded-2xl border-2 border-slate-200 ring-2 ring-indigo-500 ring-offset-2">
+                                            <p className="text-slate-400 text-[10px] font-bold uppercase mb-1">Enrichment (A & B)</p>
+                                            <h3 className="text-2xl font-black text-slate-800">3 Leads</h3>
+                                            <p className="text-[10px] text-slate-500 mt-1 leading-tight">Must be identified at the start of process for all A & B accounts.</p>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        )}
+
+                        {activeTab === 'tools' && (
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {tools.map((tool, idx) => (
+                                    <div key={idx} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                                        <div className="p-4 border-b bg-slate-50">
+                                            <span className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">{tool.type}</span>
+                                            <h3 className="font-bold text-slate-800">{tool.name}</h3>
+                                        </div>
+                                        <div className="p-4">
+                                            <p className="text-xs text-slate-500 mb-4">{tool.use}</p>
+                                            <a href={tool.url} target="_blank" className="block text-center py-2 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-800 text-xs font-bold rounded-lg transition-colors">Open Resource</a>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </main>
+                    <footer className="py-8 text-center text-slate-400 text-xs">
+                        <p>© Edgistify Internal Operations</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
